@@ -26,6 +26,7 @@
 		A469DFCE1E65FBD300F1EE50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A469DFD11E65FBD300F1EE50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A469DFD31E65FBD300F1EE50 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A469DFD91E65FD7B00F1EE50 /* Grade_11_Computer_Science_ISP_Proposal_-_Exemplar.docx */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Grade_11_Computer_Science_ISP_Proposal_-_Exemplar.docx"; path = "../Grade_11_Computer_Science_ISP_Proposal_-_Exemplar.docx"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 		A469DFC31E65FBD300F1EE50 /* Car park game */ = {
 			isa = PBXGroup;
 			children = (
+				A469DFD91E65FD7B00F1EE50 /* Grade_11_Computer_Science_ISP_Proposal_-_Exemplar.docx */,
 				A469DFC41E65FBD300F1EE50 /* AppDelegate.swift */,
 				A469DFC61E65FBD300F1EE50 /* GameScene.sks */,
 				A469DFC81E65FBD300F1EE50 /* Actions.sks */,
