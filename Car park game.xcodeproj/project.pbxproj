@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A469DFC51E65FBD300F1EE50 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A469DFC41E65FBD300F1EE50 /* AppDelegate.swift */; };
-		A469DFC71E65FBD300F1EE50 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = A469DFC61E65FBD300F1EE50 /* GameScene.sks */; };
-		A469DFC91E65FBD300F1EE50 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = A469DFC81E65FBD300F1EE50 /* Actions.sks */; };
 		A469DFCB1E65FBD300F1EE50 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A469DFCA1E65FBD300F1EE50 /* GameScene.swift */; };
 		A469DFCD1E65FBD300F1EE50 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A469DFCC1E65FBD300F1EE50 /* ViewController.swift */; };
 		A469DFCF1E65FBD300F1EE50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A469DFCE1E65FBD300F1EE50 /* Assets.xcassets */; };
@@ -19,8 +17,6 @@
 /* Begin PBXFileReference section */
 		A469DFC11E65FBD300F1EE50 /* Car park game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Car park game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A469DFC41E65FBD300F1EE50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A469DFC61E65FBD300F1EE50 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		A469DFC81E65FBD300F1EE50 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		A469DFCA1E65FBD300F1EE50 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		A469DFCC1E65FBD300F1EE50 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A469DFCE1E65FBD300F1EE50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -61,8 +57,6 @@
 			children = (
 				A469DFD91E65FD7B00F1EE50 /* Grade_11_Computer_Science_ISP_Proposal_-_Exemplar.docx */,
 				A469DFC41E65FBD300F1EE50 /* AppDelegate.swift */,
-				A469DFC61E65FBD300F1EE50 /* GameScene.sks */,
-				A469DFC81E65FBD300F1EE50 /* Actions.sks */,
 				A469DFCA1E65FBD300F1EE50 /* GameScene.swift */,
 				A469DFCC1E65FBD300F1EE50 /* ViewController.swift */,
 				A469DFCE1E65FBD300F1EE50 /* Assets.xcassets */,
@@ -131,9 +125,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A469DFC71E65FBD300F1EE50 /* GameScene.sks in Resources */,
 				A469DFCF1E65FBD300F1EE50 /* Assets.xcassets in Resources */,
-				A469DFC91E65FBD300F1EE50 /* Actions.sks in Resources */,
 				A469DFD21E65FBD300F1EE50 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
