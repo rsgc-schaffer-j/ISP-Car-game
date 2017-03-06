@@ -35,14 +35,13 @@ class GameScene: SKScene {
         //right=124
         //down=125
         //up=126
-        while event.keyCode == 126 {
-            let move = SKAction.moveBy(x: 0,y: 200,duration:2)
+        if event.keyCode == 126 {
+            let move = SKAction.moveBy(x: 0,y: 40,duration:0.2)
             car.run(move)
-            
         }
         
-        while event.keyCode == 125 {
-            let move = SKAction.moveBy(x: 0,y: -200,duration:2)
+        if event.keyCode == 125 {
+            let move = SKAction.moveBy(x: 0,y: -40,duration:0.2)
             car.run(move)
             
         }
