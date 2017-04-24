@@ -15,6 +15,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A41A42AD1EA92DBC006219D4 /* Independent_Study_Project_-_Checkpoint_1.docx */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Independent_Study_Project_-_Checkpoint_1.docx"; sourceTree = "<group>"; };
 		A469DFC11E65FBD300F1EE50 /* Car park game.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Car park game.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A469DFC41E65FBD300F1EE50 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A469DFCA1E65FBD300F1EE50 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -56,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				A469DFD91E65FD7B00F1EE50 /* Grade_11_Computer_Science_ISP_Proposal_-_Exemplar.docx */,
+				A41A42AD1EA92DBC006219D4 /* Independent_Study_Project_-_Checkpoint_1.docx */,
 				A469DFC41E65FBD300F1EE50 /* AppDelegate.swift */,
 				A469DFCA1E65FBD300F1EE50 /* GameScene.swift */,
 				A469DFCC1E65FBD300F1EE50 /* ViewController.swift */,
@@ -292,6 +294,7 @@
 				A469DFD81E65FBD300F1EE50 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

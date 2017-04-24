@@ -9,6 +9,13 @@
 import SpriteKit
 import GameplayKit
 
+struct physicsCatagory {
+   static let none     :   UInt8 = 0b0000
+  static  let cars    :   UInt8 = 0b0001  // 1
+   static let spot     :   UInt8 = 0b0010  // 2
+   static let edge     :   UInt8 = 0b0100  // 4
+}
+
 class GameScene: SKScene {
     var acceloration: CGFloat = 0.0
     var fast: CGFloat = 0.0
@@ -16,25 +23,43 @@ class GameScene: SKScene {
      var yMovement: CGFloat = 0.0
     let midPoint = CGPoint()
     var car = SKSpriteNode()
-    var rotation: CGFloat = CGFloat(M_PI)/2
+   // var tarmac = SKSpriteNode()
+    var rotation: CGFloat = CGFloat(M_PI)/2//CGFloat(0)
     var currentRotate = CGFloat(M_PI)/2
     var neededRoate = CGFloat(0.000)
     var drive: Bool = true
+    
+    
+    
     override func didMove(to view : SKView){
         
         backgroundColor = SKColor.white
-        
+       
         addObjects()
     }
     
     func addObjects() {
         
         
+
+        
         car = SKSpriteNode(imageNamed: "Car")
         car.name = "Car"
-        car.position = CGPoint(x: 200, y: 250)
+        car.position = CGPoint(x: 200, y: 1050)
         car.setScale(0.3)
+        car.physicsBody = SKPhysicsBody(circleOfRadius: 10)
+       // car.physicsBody!.categoryBitMask = UInt32(physicsCatagory.cars)
+        //car.physicsBody!.collisionBitMask = UInt32(physicsCatagory.edge) | UInt32(physicsCatagory.spot)
+
+        let action = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.2)
         self.addChild(car)
+         car.run(action)
+        
+//        tarmac = SKSpriteNode(imageNamed: "tarmac")
+//        tarmac.name = "tarmac"
+//        tarmac.position = CGPoint(x: 0, y: 0)
+        //tarmac.setScale(0.3)
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -60,13 +85,13 @@ class GameScene: SKScene {
 //            xMovement = 0
 //            yMovement = 0
 //        }
-        neededRoate = currentRotate - rotation * -1 
+        neededRoate = currentRotate - rotation * -1
         currentRotate = rotation * -1
-        let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
-        let move = SKAction.moveBy(x: xMovement,y:yMovement,duration:0.001)
+//        let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
+//        let move = SKAction.moveBy(x: xMovement,y:yMovement,duration:0.001)
         
-        car.run(action)
-        car.run(move)
+        //car.run(action)
+        //car.run(move)
         print(fast)
     }
     
@@ -80,16 +105,16 @@ class GameScene: SKScene {
         fast = xMovement + yMovement
         if event.keyCode == 126 {
            // if drive {
-                xMovement = cos(rotation)*2
-                yMovement = sin(rotation)*2
+                xMovement = abs(cos(rotation))*2
+                yMovement = abs(sin(rotation))*2
              acceloration = 1
           //  }
                     }
         
         if event.keyCode == 125{
            //if !drive {
-                xMovement = cos(rotation) * -2
-                yMovement = sin(rotation) * -2
+                xMovement = abs(cos(rotation)) * -2
+                yMovement = abs(sin(rotation)) * -2
                 acceloration = 1
             //}
                    }
@@ -100,23 +125,23 @@ class GameScene: SKScene {
                 xMovement = cos(rotation)*2
                 yMovement = sin(rotation)*2
             }else if fast < 0{
-                xMovement = cos(rotation) * -2
-                yMovement = sin(rotation) * -2
+                xMovement = abs(cos(rotation)) * -2
+                yMovement = abs(sin(rotation)) * -2
             }
         }
         
         if event.keyCode == 123{
             rotation += 0.523599
             if fast > 0 && rotation < CGFloat(M_PI) || fast < 0 && rotation > CGFloat(M_PI) {
-                xMovement = cos(rotation)*2
-                yMovement = sin(rotation)*2
+                xMovement = abs(cos(rotation))*2
+                yMovement = abs(sin(rotation))*2
             }else if fast < 0 && rotation < CGFloat(M_PI) || fast > 0 && rotation > CGFloat(M_PI){
-                xMovement = cos(rotation) * -2
-                yMovement = sin(rotation) * -2
+                xMovement = abs(cos(rotation)) * -2
+                yMovement = abs(sin(rotation)) * -2
             }
 
         }
-     //   print(event.keyCode)
+    //print(event.keyCode)
         
     }
     
