@@ -10,10 +10,10 @@ import SpriteKit
 import GameplayKit
 
 struct physicsCatagory {
-   static let none     :   UInt8 = 0b0000
-  static  let cars    :   UInt8 = 0b0001  // 1
-   static let spot     :   UInt8 = 0b0010  // 2
-   static let edge     :   UInt8 = 0b0100  // 4
+   static let none     :   UInt32 = 0b0000
+  static  let cars    :   UInt32 = 0b0001  // 1
+   static let spot     :   UInt32 = 0b0010  // 2
+   static let edge     :   UInt32 = 0b0100  // 4
 }
 
 class GameScene: SKScene {
@@ -23,7 +23,8 @@ class GameScene: SKScene {
      var yMovement: CGFloat = 0.0
     let midPoint = CGPoint()
     var car = SKSpriteNode()
-   // var tarmac = SKSpriteNode()
+   var tarmacs = SKSpriteNode()
+    var spot = SKSpriteNode()
     var rotation: CGFloat = CGFloat(M_PI)/2//CGFloat(0)
     var currentRotate = CGFloat(M_PI)/2
     var neededRoate = CGFloat(0.000)
@@ -33,7 +34,21 @@ class GameScene: SKScene {
     
     override func didMove(to view : SKView){
         
-        backgroundColor = SKColor.white
+        tarmacs = SKSpriteNode(imageNamed: "tarmac")
+        tarmacs.name = "tarmac"
+        tarmacs.position = CGPoint(x: 0, y: 0)
+        tarmacs.setScale(2)
+        tarmacs.zPosition = 0
+        self.addChild(tarmacs)
+        
+        spot = SKSpriteNode(imageNamed: "rect")
+        spot.name = "rect"
+        spot.setScale(0.15)
+        spot.position = CGPoint(x: 1850, y: 768)
+        spot.zPosition = 1
+        spot.physicsBody = SKPhysicsBody(circleOfRadius: 5)
+        self.addChild(spot)
+     
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
        
@@ -47,20 +62,18 @@ class GameScene: SKScene {
         
         car = SKSpriteNode(imageNamed: "Car")
         car.name = "Car"
-        car.position = CGPoint(x: 200, y: 1050)
+        car.position = CGPoint(x: 200, y: 100)
         car.setScale(0.3)
-        car.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-       // car.physicsBody!.categoryBitMask = UInt32(physicsCatagory.cars)
-        //car.physicsBody!.collisionBitMask = UInt32(physicsCatagory.edge) | UInt32(physicsCatagory.spot)
+        car.physicsBody = SKPhysicsBody(circleOfRadius: 20)
+        
+        car.physicsBody!.categoryBitMask = UInt32(physicsCatagory.cars)
+        car.physicsBody!.contactTestBitMask = UInt32(physicsCatagory.edge) | UInt32(physicsCatagory.spot)
 
         let action = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.2)
         self.addChild(car)
          car.run(action)
         
-//        tarmac = SKSpriteNode(imageNamed: "tarmac")
-//        tarmac.name = "tarmac"
-//        tarmac.position = CGPoint(x: 0, y: 0)
-        //tarmac.setScale(0.3)
+             spot.physicsBody!.contactTestBitMask = UInt32(physicsCatagory.cars)
         
     }
     
@@ -89,14 +102,26 @@ class GameScene: SKScene {
 //        }
         neededRoate = currentRotate - rotation * -1
         currentRotate = rotation * -1
-//        let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
-//        let move = SKAction.moveBy(x: xMovement,y:yMovement,duration:0.001)
+        let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
+        let move = SKAction.moveBy(x: xMovement,y:yMovement,duration:0.001)
         
-        //car.run(action)
-        //car.run(move)
+        car.run(action)
+        car.run(move)
         print(fast)
+        
     }
-    
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+        
+        //DEBUG
+        print("Collisin between \(collision)")
+        
+        if collision == physicsCatagory.spot | physicsCatagory.cars{
+            
+        }
+    }
+
     override func keyDown(with event: NSEvent) {
         
         //left =123
@@ -107,8 +132,8 @@ class GameScene: SKScene {
         fast = xMovement + yMovement
         if event.keyCode == 126 {
            // if drive {
-                xMovement = abs(cos(rotation))*2
-                yMovement = abs(sin(rotation))*2
+                xMovement = cos(rotation)*2
+                yMovement = sin(rotation)*2
              acceloration = 1
           //  }
                     }
