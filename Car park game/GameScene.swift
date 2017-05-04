@@ -34,14 +34,6 @@ class GameScene: SKScene {
     
     
     override func didMove(to view : SKView){
-        
-        //        tarmacs = SKSpriteNode(imageNamed: "tarmac")
-        //        tarmacs.name = "tarmac"
-        //        tarmacs.position = CGPoint(x: 0, y: 0)
-        //        tarmacs.setScale(2)
-        //        tarmacs.zPosition = 0
-        //        self.addChild(tarmacs)
-        
         spot = SKSpriteNode(imageNamed: "rect")
         spot.name = "rect"
         spot.setScale(0.15)
@@ -91,27 +83,22 @@ class GameScene: SKScene {
     
     override func update(_ currentTime: TimeInterval) {
         
-        if fast > 0{
-            drive = true
-        }else{
-            drive = false
-        }
+    
         
         //fast = xMovement + yMovement
-        if fast > 10 || fast < -10 {
+        if fast > 3 || fast < -3 {
             acceloration = 1
         }
         
-        //    if acceloration == 2 || acceloration == 0.5{
+        while fast > 5 || fast < -5 {
+            yMovement = yMovement * 0.98
+            xMovement = xMovement * 0.98
+        }
+        
+ 
         yMovement = yMovement * acceloration
         xMovement = xMovement * acceloration
-        //        }else if fast < -0.3 || fast > 0.3{
-        //           yMovement = yMovement * 0.9
-        //        xMovement = xMovement * 0.9
-        //        }else{
-        //            xMovement = 0
-        //            yMovement = 0
-        //        }
+      
         neededRoate = currentRotate - rotation * -1
         currentRotate = rotation * -1
         let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
@@ -155,101 +142,73 @@ class GameScene: SKScene {
         fast = xMovement + yMovement
         if event.keyCode == 126 {
             // if drive {
-            xMovement = cos(rotation)*2
-            yMovement = sin(rotation)*2
-            acceloration = 1
+//            xMovement = cos(rotation)*2
+//            yMovement = sin(rotation)*2
+            if forward{
+                acceloration = 1.2
                 forward = true
+            }else if fast < 0.2 && fast > -0.2{
+                xMovement = cos(rotation)*2
+                yMovement = sin(rotation)*2
+                forward = true
+                acceloration = 1.2
+            }else{
+                acceloration = 0.85
+            }
+         
             //  }
         }
         
         if event.keyCode == 125{
             //if !drive {
-            xMovement = abs(cos(rotation)) * -2
-            yMovement = abs(sin(rotation)) * -2
-            acceloration = 1
-           forward = false
+            if !forward{
+                acceloration = 1.2
+                forward = false
+            }else if fast < 0.2 && fast > -0.2{
+                xMovement = abs(cos(rotation)) * -2
+                yMovement = abs(sin(rotation)) * -2
+                forward = false
+                acceloration = 1.2
+            }else{
+                acceloration = 0.85
+            }
+
             //}
         }
         
         if event.keyCode == 124{
             rotation -= 0.0872665
+            let currentX = xMovement
+            let currentY = yMovement
             if forward {
-                xMovement = cos(rotation) * 2
-                yMovement = sin(rotation) * 2
+                xMovement = cos(rotation) * 2 + currentX
+                yMovement = sin(rotation) * 2 + currentY
             }else {
-                xMovement = cos(rotation) * -2
-                yMovement = sin(rotation) * -2
+                xMovement = cos(rotation) * -2 + currentX
+                yMovement = sin(rotation) * -2 + currentY
             }
         }
         
         if event.keyCode == 123{
             rotation += 0.0872665
+            let currentX = xMovement
+            let currentY = yMovement
             if  forward{
-                xMovement = cos(rotation) * 2
-                yMovement = sin(rotation) * 2
+                xMovement = cos(rotation) * 2 + currentX
+                yMovement = sin(rotation) * 2 + currentY
             }else{
-                xMovement = cos(rotation) * -2
-                yMovement = sin(rotation) * -2
+                xMovement = cos(rotation) * -2 + currentX
+                yMovement = sin(rotation) * -2 + currentY
             }
             }
 
+        if event.keyCode == 49 {
+            
+    acceloration = 0.5
+        }
+        
         }
     
         
     }
-    
-    
-    
-
-
-
-//if fast > 0 && rotation > 4.71239 {
-//    xMovement = abs(cos(rotation)) * -2
-//    yMovement = abs(sin(rotation)) * 2
-//}else if fast > 0 && rotation < 4.71239 {
-//    xMovement = abs(cos(rotation)) * 2
-//    yMovement = abs(sin(rotation)) * 2
-//}else if fast < 0 && rotation < 4.71239 {
-//    xMovement = abs(cos(rotation)) * -2
-//    yMovement = abs(sin(rotation)) * -2
-//}else if fast < 0 && rotation > 4.71239 {
-//    xMovement = abs(cos(rotation)) * 2
-//    yMovement = abs(sin(rotation)) * -2
-//}
-
-
-
-//&& rotation < CGFloat(M_PI) || fast < 0 && rotation > CGFloat(M_PI)
-//&& rotation < CGFloat(M_PI) || fast > 0 && rotation > CGFloat(M_PI)
-
-
-//if event.keyCode == 126 {
-//    if fast>0.3 && fast<60 {
-//        acceloration = 2
-//    }else if fast < 0.3 && fast > -0.3 && fast != 0{
-//        fast=0
-//    }else if fast < -0.4 {
-//        acceloration = 0.5
-//    }else{
-//        acceloration = 2
-//    }
-//    xMovement = cos(rotation)*2
-//    yMovement = sin(rotation)*2
-//}
-//
-//if event.keyCode == 125{
-//    if fast>0.3 && fast<60 {
-//        acceloration = 0.5
-//    }else if fast < 0.3 && fast > -0.3 && fast != 0{
-//        fast=0
-//    }else if fast < -0.3 && fast > -60 {
-//        acceloration = 2
-//    }else{
-//        xMovement = xMovement * -1
-//        yMovement = yMovement * -1
-//        acceloration = 2
-//    }
-//    xMovement = cos(rotation)*2
-//    yMovement = sin(rotation)*2
-//}
 
