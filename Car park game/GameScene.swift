@@ -10,36 +10,37 @@ import SpriteKit
 import GameplayKit
 
 struct physicsCatagory {
-   static let none     :   UInt32 = 0b0000
-  static  let cars    :   UInt32 = 0b0001  // 1
-   static let spot     :   UInt32 = 0b0010  // 2
-   static let edge     :   UInt32 = 0b0100  // 4
+    static let none     :   UInt32 = 0b0000
+    static  let cars    :   UInt32 = 0b0001  // 1
+    static let spot     :   UInt32 = 0b0010  // 2
+    static let edge     :   UInt32 = 0b0100  // 4
 }
 
 class GameScene: SKScene {
     var acceloration: CGFloat = 0.0
     var fast: CGFloat = 0.0
     var xMovement: CGFloat = 0.0
-     var yMovement: CGFloat = 0.0
+    var yMovement: CGFloat = 0.0
     let midPoint = CGPoint()
     var car = SKSpriteNode()
-   var tarmacs = SKSpriteNode()
+    var tarmacs = SKSpriteNode()
     var spot = SKSpriteNode()
+    var goal = SKSpriteNode()
     var rotation: CGFloat = CGFloat(M_PI)/2//CGFloat(0)
     var currentRotate = CGFloat(M_PI)/2
     var neededRoate = CGFloat(0.000)
     var drive: Bool = true
-    
+       var forward = true
     
     
     override func didMove(to view : SKView){
         
-        tarmacs = SKSpriteNode(imageNamed: "tarmac")
-        tarmacs.name = "tarmac"
-        tarmacs.position = CGPoint(x: 0, y: 0)
-        tarmacs.setScale(2)
-        tarmacs.zPosition = 0
-        self.addChild(tarmacs)
+        //        tarmacs = SKSpriteNode(imageNamed: "tarmac")
+        //        tarmacs.name = "tarmac"
+        //        tarmacs.position = CGPoint(x: 0, y: 0)
+        //        tarmacs.setScale(2)
+        //        tarmacs.zPosition = 0
+        //        self.addChild(tarmacs)
         
         spot = SKSpriteNode(imageNamed: "rect")
         spot.name = "rect"
@@ -47,18 +48,29 @@ class GameScene: SKScene {
         spot.position = CGPoint(x: 1850, y: 768)
         spot.zPosition = 1
         spot.physicsBody = SKPhysicsBody(circleOfRadius: 5)
+        spot.physicsBody!.categoryBitMask = physicsCatagory.spot
+        spot.physicsBody!.contactTestBitMask = physicsCatagory.edge | physicsCatagory.cars
+        spot.physicsBody?.isDynamic = false
+        
+        goal = SKSpriteNode(imageNamed: "rect")
+        goal.name = "goal"
+        goal.setScale(0.01)
+        goal.position = CGPoint(x: 1850, y: 768)
+        goal.zPosition = 0
+
         self.addChild(spot)
-     
+        self.addChild(goal)
+        
         
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-       
+        
         addObjects()
     }
     
     func addObjects() {
         
         
-
+        
         
         car = SKSpriteNode(imageNamed: "Car")
         car.name = "Car"
@@ -66,40 +78,40 @@ class GameScene: SKScene {
         car.setScale(0.3)
         car.physicsBody = SKPhysicsBody(circleOfRadius: 20)
         
-        car.physicsBody!.categoryBitMask = UInt32(physicsCatagory.cars)
-        car.physicsBody!.contactTestBitMask = UInt32(physicsCatagory.edge) | UInt32(physicsCatagory.spot)
-
+        car.physicsBody!.categoryBitMask = physicsCatagory.cars
+        car.physicsBody!.contactTestBitMask = physicsCatagory.edge | physicsCatagory.spot
+        car.physicsBody?.isDynamic = false
         let action = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.2)
         self.addChild(car)
-         car.run(action)
+        car.run(action)
         
-             spot.physicsBody!.contactTestBitMask = UInt32(physicsCatagory.cars)
+        spot.physicsBody!.contactTestBitMask = UInt32(physicsCatagory.cars)
         
     }
     
     override func update(_ currentTime: TimeInterval) {
-       
+        
         if fast > 0{
             drive = true
         }else{
             drive = false
         }
         
-        fast = xMovement + yMovement
+        //fast = xMovement + yMovement
         if fast > 10 || fast < -10 {
             acceloration = 1
         }
         
-    //    if acceloration == 2 || acceloration == 0.5{
-            yMovement = yMovement * acceloration
-            xMovement = xMovement * acceloration
-//        }else if fast < -0.3 || fast > 0.3{
-//           yMovement = yMovement * 0.9
-//        xMovement = xMovement * 0.9
-//        }else{
-//            xMovement = 0
-//            yMovement = 0
-//        }
+        //    if acceloration == 2 || acceloration == 0.5{
+        yMovement = yMovement * acceloration
+        xMovement = xMovement * acceloration
+        //        }else if fast < -0.3 || fast > 0.3{
+        //           yMovement = yMovement * 0.9
+        //        xMovement = xMovement * 0.9
+        //        }else{
+        //            xMovement = 0
+        //            yMovement = 0
+        //        }
         neededRoate = currentRotate - rotation * -1
         currentRotate = rotation * -1
         let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
@@ -107,75 +119,108 @@ class GameScene: SKScene {
         
         car.run(action)
         car.run(move)
-        print(fast)
+        //  print(fast)
         
-    }
-    func didBegin(_ contact: SKPhysicsContact) {
-        
-        let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-        
-        //DEBUG
-        print("Collisin between \(collision)")
-        
-        if collision == physicsCatagory.spot | physicsCatagory.cars{
-            
+        for node in self.children{
+            if let nodename = node.name{
+                if nodename == "goal"{
+                    if node.intersects(car){
+                        print("touch")
+                    }
+            }
         }
+        
     }
-
+    }
+    
+//    func didBegin(_ contact: SKPhysicsContact) {
+//        
+//        let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
+//        print(collision)
+//        if collision == physicsCatagory.spot | physicsCatagory.cars{
+//            print("Collisin between \(collision)")
+//            
+//            
+//        }
+//    }
+    
+    
     override func keyDown(with event: NSEvent) {
         
         //left =123
         //right=124
         //down=125
         //up=126
-        
+     
         fast = xMovement + yMovement
         if event.keyCode == 126 {
-           // if drive {
-                xMovement = cos(rotation)*2
-                yMovement = sin(rotation)*2
-             acceloration = 1
-          //  }
-                    }
+            // if drive {
+            xMovement = cos(rotation)*2
+            yMovement = sin(rotation)*2
+            acceloration = 1
+                forward = true
+            //  }
+        }
         
         if event.keyCode == 125{
-           //if !drive {
-                xMovement = abs(cos(rotation)) * -2
-                yMovement = abs(sin(rotation)) * -2
-                acceloration = 1
+            //if !drive {
+            xMovement = abs(cos(rotation)) * -2
+            yMovement = abs(sin(rotation)) * -2
+            acceloration = 1
+           forward = false
             //}
-                   }
+        }
         
         if event.keyCode == 124{
-                 rotation -= 0.523599
-            if fast > 0{
-                xMovement = cos(rotation)*2
-                yMovement = sin(rotation)*2
-            }else if fast < 0{
-                xMovement = abs(cos(rotation)) * -2
-                yMovement = abs(sin(rotation)) * -2
+            rotation -= 0.0872665
+            if forward {
+                xMovement = cos(rotation) * 2
+                yMovement = sin(rotation) * 2
+            }else {
+                xMovement = cos(rotation) * -2
+                yMovement = sin(rotation) * -2
             }
         }
         
         if event.keyCode == 123{
-            rotation += 0.523599
-            if fast > 0 && rotation < CGFloat(M_PI) || fast < 0 && rotation > CGFloat(M_PI) {
-                xMovement = abs(cos(rotation))*2
-                yMovement = abs(sin(rotation))*2
-            }else if fast < 0 && rotation < CGFloat(M_PI) || fast > 0 && rotation > CGFloat(M_PI){
-                xMovement = abs(cos(rotation)) * -2
-                yMovement = abs(sin(rotation)) * -2
+            rotation += 0.0872665
+            if  forward{
+                xMovement = cos(rotation) * 2
+                yMovement = sin(rotation) * 2
+            }else{
+                xMovement = cos(rotation) * -2
+                yMovement = sin(rotation) * -2
+            }
             }
 
         }
-    //print(event.keyCode)
+    
         
     }
     
     
     
-}
 
+
+
+//if fast > 0 && rotation > 4.71239 {
+//    xMovement = abs(cos(rotation)) * -2
+//    yMovement = abs(sin(rotation)) * 2
+//}else if fast > 0 && rotation < 4.71239 {
+//    xMovement = abs(cos(rotation)) * 2
+//    yMovement = abs(sin(rotation)) * 2
+//}else if fast < 0 && rotation < 4.71239 {
+//    xMovement = abs(cos(rotation)) * -2
+//    yMovement = abs(sin(rotation)) * -2
+//}else if fast < 0 && rotation > 4.71239 {
+//    xMovement = abs(cos(rotation)) * 2
+//    yMovement = abs(sin(rotation)) * -2
+//}
+
+
+
+//&& rotation < CGFloat(M_PI) || fast < 0 && rotation > CGFloat(M_PI)
+//&& rotation < CGFloat(M_PI) || fast > 0 && rotation > CGFloat(M_PI)
 
 
 //if event.keyCode == 126 {
