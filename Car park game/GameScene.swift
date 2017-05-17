@@ -85,15 +85,17 @@ class GameScene: SKScene {
         
     
         
-        //fast = xMovement + yMovement
-        if fast > 3 || fast < -3 {
-            acceloration = 1
-        }
+        fast = xMovement + yMovement
+        if fast > 6 && acceloration > 1 || fast < -6 && acceloration > 1{
+            acceloration = 0.9
+}//else{
+//            acceloration = 1
+//        }
         
-        while fast > 5 || fast < -5 {
-            yMovement = yMovement * 0.98
-            xMovement = xMovement * 0.98
-        }
+//        while fast > 5 || fast < -5 {
+//            yMovement = yMovement * 0.98
+//            xMovement = xMovement * 0.98
+//        }
         
  
         yMovement = yMovement * acceloration
@@ -106,12 +108,12 @@ class GameScene: SKScene {
         
         car.run(action)
         car.run(move)
-        //  print(fast)
+        print(fast)
         
         for node in self.children{
             if let nodename = node.name{
                 if nodename == "goal"{
-                    if node.intersects(car){
+                    if node.intersects(car) && fast < 0.2{
                         print("touch")
                     }
             }
@@ -146,6 +148,8 @@ class GameScene: SKScene {
 //            yMovement = sin(rotation)*2
             if forward{
                 acceloration = 1.2
+                xMovement = cos(rotation)
+                yMovement = sin(rotation)
                 forward = true
             }else if fast < 0.2 && fast > -0.2{
                 xMovement = cos(rotation)*2
@@ -160,17 +164,16 @@ class GameScene: SKScene {
         }
         
         if event.keyCode == 125{
-            //if !drive {
             if !forward{
                 acceloration = 1.2
                 forward = false
             }else if fast < 0.2 && fast > -0.2{
-                xMovement = abs(cos(rotation)) * -2
-                yMovement = abs(sin(rotation)) * -2
+                xMovement = cos(rotation) * -2
+                yMovement = sin(rotation) * -2
                 forward = false
                 acceloration = 1.2
             }else{
-                acceloration = 0.85
+                acceloration = 0.8
             }
 
             //}
@@ -181,7 +184,7 @@ class GameScene: SKScene {
             let currentX = xMovement
             let currentY = yMovement
             if forward {
-                xMovement = cos(rotation) * 2 + currentX
+                xMovement = cos(rotation) * 2  + currentX
                 yMovement = sin(rotation) * 2 + currentY
             }else {
                 xMovement = cos(rotation) * -2 + currentX
