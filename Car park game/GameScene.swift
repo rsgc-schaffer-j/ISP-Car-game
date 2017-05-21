@@ -40,6 +40,7 @@ class GameScene: SKScene {
     
     override func didMove(to view : SKView){
         
+        //adding images and objects
         wall1 = SKSpriteNode(imageNamed: "red rect")
         wall1.name = "wall"
         wall1.xScale = 1.75
@@ -79,6 +80,7 @@ class GameScene: SKScene {
         flag.position = CGPoint(x: -111100, y: 100)
         flag.zPosition = 2
 
+        //adding to the scene
         self.addChild(spot)
         self.addChild(wall1)
         self.addChild(wall2)
@@ -111,35 +113,30 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         
     
-        
+        //makes sure car doesnt move to fast
         fast = xMovement + yMovement
         if fast > 6 && acceloration > 1 || fast < -6 && acceloration > 1{
             acceloration = 0.9
-}//else{
-//            acceloration = 1
-//        }
+}
         
-//        while fast > 5 || fast < -5 {
-//            yMovement = yMovement * 0.98
-//            xMovement = xMovement * 0.98
-//        }
-        
- 
+ //changes speed
         yMovement = yMovement * acceloration
         xMovement = xMovement * acceloration
       
         neededRoate = currentRotate - rotation * -1
         currentRotate = rotation * -1
         
+        
         let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
         let move = SKAction.moveBy(x: xMovement,y:yMovement,duration:0.001)
         if finish == false{
+            //moves and turns car
         car.run(action)
         car.run(move)
         }
         
         print(acceloration)
-        
+        //hit detection
         for node in self.children{
             if let nodename = node.name{
                 if nodename == "goal"{
@@ -163,16 +160,7 @@ class GameScene: SKScene {
     }
     }
     
-//    func didBegin(_ contact: SKPhysicsContact) {
-//        
-//        let collision = contact.bodyA.categoryBitMask | contact.bodyB.categoryBitMask
-//        print(collision)
-//        if collision == physicsCatagory.spot | physicsCatagory.cars{
-//            print("Collisin between \(collision)")
-//            
-//            
-//        }
-//    }
+
     
     
     override func keyDown(with event: NSEvent) {
@@ -183,10 +171,9 @@ class GameScene: SKScene {
         //up=126
      
         fast = xMovement + yMovement
+        
+        //moves car in direction of arrow keys
         if event.keyCode == 126 {
-            // if drive {
-//            xMovement = cos(rotation)*2
-//            yMovement = sin(rotation)*2
             if forward{
                 acceloration = 1.4
                 xMovement = cos(rotation)
