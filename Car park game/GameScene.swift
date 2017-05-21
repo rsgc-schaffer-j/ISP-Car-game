@@ -25,36 +25,67 @@ class GameScene: SKScene {
     var car = SKSpriteNode()
     var tarmacs = SKSpriteNode()
     var spot = SKSpriteNode()
+    var wall1 = SKSpriteNode()
+    var wall2 = SKSpriteNode()
+    var wall3 = SKSpriteNode()
     var goal = SKSpriteNode()
-    var rotation: CGFloat = CGFloat(M_PI)/2//CGFloat(0)
-    var currentRotate = CGFloat(M_PI)/2
+    var flag = SKSpriteNode()
+    var rotation: CGFloat = CGFloat(Double.pi)/2
+    var currentRotate = CGFloat(Double.pi)/2
     var neededRoate = CGFloat(0.000)
     var drive: Bool = true
        var forward = true
+    var finish = false
     
     
     override func didMove(to view : SKView){
+        
+        wall1 = SKSpriteNode(imageNamed: "red rect")
+        wall1.name = "wall"
+        wall1.xScale = 1.75
+        wall1.yScale = 0.3
+        wall1.position = CGPoint(x: 0, y: 1200)
+        wall1.zPosition = 1
+        
+        wall2 = SKSpriteNode(imageNamed: "red rect")
+        wall2.name = "wall"
+        wall2.xScale = 1.5
+        wall2.yScale = 0.3
+        wall2.position = CGPoint(x: 1850, y: 800)
+        wall2.zPosition = 1
+        
+        wall3 = SKSpriteNode(imageNamed: "red rect")
+        wall3.name = "wall"
+        wall3.xScale = 1.75
+        wall3.yScale = 0.3
+        wall3.position = CGPoint(x: 0, y: 400)
+        wall3.zPosition = 1
+        
         spot = SKSpriteNode(imageNamed: "rect")
         spot.name = "rect"
         spot.setScale(0.15)
-        spot.position = CGPoint(x: 1850, y: 768)
+        spot.position = CGPoint(x: 200, y: 1400)
         spot.zPosition = 1
-        spot.physicsBody = SKPhysicsBody(circleOfRadius: 5)
-        spot.physicsBody!.categoryBitMask = physicsCatagory.spot
-        spot.physicsBody!.contactTestBitMask = physicsCatagory.edge | physicsCatagory.cars
-        spot.physicsBody?.isDynamic = false
+   
         
         goal = SKSpriteNode(imageNamed: "rect")
         goal.name = "goal"
         goal.setScale(0.01)
-        goal.position = CGPoint(x: 1850, y: 768)
+        goal.position = CGPoint(x: 200, y: 1400)
         goal.zPosition = 0
+        
+        flag = SKSpriteNode(imageNamed: "flags")
+        flag.setScale(3)
+        flag.position = CGPoint(x: -111100, y: 100)
+        flag.zPosition = 2
 
         self.addChild(spot)
+        self.addChild(wall1)
+        self.addChild(wall2)
+        self.addChild(wall3)
         self.addChild(goal)
+        self.addChild(flag)
         
-        
-        self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         
         addObjects()
     }
@@ -68,16 +99,12 @@ class GameScene: SKScene {
         car.name = "Car"
         car.position = CGPoint(x: 200, y: 100)
         car.setScale(0.3)
-        car.physicsBody = SKPhysicsBody(circleOfRadius: 20)
-        
-        car.physicsBody!.categoryBitMask = physicsCatagory.cars
-        car.physicsBody!.contactTestBitMask = physicsCatagory.edge | physicsCatagory.spot
-        car.physicsBody?.isDynamic = false
-        let action = SKAction.rotate(byAngle: CGFloat(M_PI), duration: 0.2)
+ 
+        let action = SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 0.2)
         self.addChild(car)
         car.run(action)
         
-        spot.physicsBody!.contactTestBitMask = UInt32(physicsCatagory.cars)
+
         
     }
     
@@ -103,20 +130,34 @@ class GameScene: SKScene {
       
         neededRoate = currentRotate - rotation * -1
         currentRotate = rotation * -1
+        
         let action = SKAction.rotate(byAngle: neededRoate, duration: 0.2)
         let move = SKAction.moveBy(x: xMovement,y:yMovement,duration:0.001)
-        
+        if finish == false{
         car.run(action)
         car.run(move)
-        print(fast)
+        }
+        
+        print(acceloration)
         
         for node in self.children{
             if let nodename = node.name{
                 if nodename == "goal"{
                     if node.intersects(car) && fast < 0.2{
-                        print("touch")
+                     flag.position = CGPoint(x: 925, y: 750)
+                        finish = true
                     }
-            }
+                }
+                
+                if nodename == "wall"{
+                    if node.intersects(car){
+                       car.position = CGPoint(x: 200, y: 100)
+                        rotation = CGFloat(Double.pi)/2
+                        xMovement = 0.0
+                        yMovement = 0.0
+                    }
+                }
+                
         }
         
     }
@@ -147,7 +188,7 @@ class GameScene: SKScene {
 //            xMovement = cos(rotation)*2
 //            yMovement = sin(rotation)*2
             if forward{
-                acceloration = 1.2
+                acceloration = 1.4
                 xMovement = cos(rotation)
                 yMovement = sin(rotation)
                 forward = true
